@@ -35,7 +35,6 @@ class sankaku():
 
         if not sankaku_res.ok:
             sankaku_res.raise_for_status()
-            return
         sankaku_json = sankaku_res.json()
         if not sankaku_json:  # No results
             return None
