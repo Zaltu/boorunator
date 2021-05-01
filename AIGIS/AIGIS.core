@@ -3,4 +3,4 @@ Define imported objects
 """
 from src import boorunator
 
-SKILLS = ["boorunator.boor", "boorunator.ratings"]
+SKILLS = ["boorunator.boor", "boorunator.ratings", "boorunator.sites"]
