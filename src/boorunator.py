@@ -2,6 +2,7 @@
 Search image hosting servers for images matching certain tags.
 """
 import re
+import requests
 from src.consts import sites, ratings, TAG_REGEX, _DEFAULT_ORDER, NoResult, BadTag
 
 
@@ -13,12 +14,15 @@ def _findfrom(tagstr, rating, fromsite):
     :param ratings rating: rating constant enum
     :param sites fromsite: site (class) to search in
 
-    :raises NoResult: if the search returns no images for that site
+    :raises NoResult: if the search returns no images for that site, or an HTTP error was raised
 
     :return: image url
     :rtype: str
     """
-    image_url = fromsite.search(tagstr, rating)
+    try:
+        image_url = fromsite.search(tagstr, rating)
+    except requests.HTTPError as e:
+        raise NoResult("An unexpected HTTP error occured:\n%s" % str(e))
     if not image_url:
         raise NoResult(f"No result found for tags {tagstr} and rating {rating} at {fromsite.name}")
     return image_url
@@ -77,6 +81,19 @@ def sanitize(tags):
 
 
 def boor(tags, rating=None, fromsite=None):
+    """
+    Search the web for weeb pictures matching requested tags and rating, optionally from a specific known site.
+
+    :param list[str] tags: list of tags. See ReadMe for formatting information
+    :param ratings rating: the rating of the image, default all
+    :param sites fromsite: the known site to search, defaults src.consts._DEFAULT_ORDER
+
+    :raises BadTag: if one or more of the provided tags are not useable
+    :raises NoResult: if no images could be found matching the requested parameters
+
+    :return: image url
+    :rtype: str
+    """
     tagstr = sanitize(tags)
     if not fromsite:
         return _findonethrougout(tagstr, rating)
