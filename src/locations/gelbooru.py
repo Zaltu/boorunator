@@ -33,8 +33,8 @@ class gelbooru():
 
         if not gel_res.ok:
             gel_res.raise_for_status()
-        gel_json = gel_res.json()
-        if not gel_json:  # No results
+        # Gelbooru returns an empty, but 200 status response if there are no matches...
+        if not gel_res.text:  # No results
             return None
-        gel_json = gel_json[0]
+        gel_json = gel_res.json()[0]
         return gel_json.get("file_url")
