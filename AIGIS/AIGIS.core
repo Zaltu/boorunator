@@ -1,0 +1,6 @@
+"""
+Define imported objects
+"""
+from src import boorunator
+
+SKILLS = ["boorunator.booru"]
