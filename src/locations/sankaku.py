@@ -16,7 +16,7 @@ _RATING_MAP = {
 }
 
 RATING_PARAM = "rating:{rating}+"
-SANKAKU_URL = "https://capi-v2.sankakucomplex.com/posts?lang=en&page=1&limit=1&tags={rating_param}order:favcount+{tags}"
+SANKAKU_URL = "https://capi-v2.sankakucomplex.com/posts?lang=en&page=1&limit=1&tags={rating_param}order:random+{tags}"
 
 class sankaku():
     name = "Sankaku Complex"
