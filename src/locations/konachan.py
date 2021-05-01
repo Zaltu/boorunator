@@ -13,7 +13,7 @@ _RATING_MAP = {
 }
 
 RATING_PARAM = "rating:{rating}+"
-KONA_URL = "https://konachan.com/post.json?page=1&limit=1&tags={rating_param}{tags}"
+KONA_URL = "https://konachan.com/post.json?page=1&limit=1&tags={rating_param}order:random+{tags}"
 
 
 class konachan():
