@@ -13,7 +13,7 @@ _RATING_MAP = {
 }
 
 RATING_PARAM = "rating:{rating}+"
-DAN_URL = "https://danbooru.donmai.us/posts.json?limit=1&page=1&tags={rating_param}{tags}"
+DAN_URL = "https://danbooru.donmai.us/posts.json?limit=1&page=1&tags={rating_param}order:random+{tags}"
 
 
 class danbooru():
@@ -31,6 +31,11 @@ class danbooru():
         url = DAN_URL.format(tags=tags, rating_param=(RATING_PARAM.format(rating=_RATING_MAP[rating]) if rating else ""))
         dan_res = requests.get(url)
 
+        if dan_res.status_code == 422:
+            # Danbooru doesn't allow searches on more than two tags unless you're premium.
+            # For whatever reason, rating: and order: together count as one tag.
+            # Probably a bug on their end, but we need to catch mega-queries anyway
+            return None
         if not dan_res.ok:
             dan_res.raise_for_status()
         dan_json = dan_res.json()
