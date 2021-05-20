@@ -14,7 +14,7 @@ _RATING_MAP = {
 }
 
 RATING_PARAM = "rating:{rating}+"
-GEL_URL = "https://gelbooru.com//index.php?page=dapi&s=post&q=index&json=1&pid=1&limit=1&tags={rating_param}sort:random+{tags}"
+GEL_URL = "https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1&pid=1&limit=1&tags={rating_param}sort:random+{tags}"
 
 class gelbooru():
     name = "Gelbooru"
