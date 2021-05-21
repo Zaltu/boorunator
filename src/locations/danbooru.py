@@ -5,19 +5,13 @@ import json
 
 import requests
 
-# Hee hee
-_RATING_MAP = {
-    "safe": "safe",
-    "questionable": "questionable",
-    "explicit": "explicit"
-}
+from src.locations._booru import _booru
 
-RATING_PARAM = "rating:{rating}+"
-DAN_URL = "https://danbooru.donmai.us/posts.json?limit=1&page=1&tags={rating_param}order:random+{tags}"
-
+DAN_URL = "https://danbooru.donmai.us/posts.json?limit=1&page=1"
 
 class danbooru():
     name = "Danbooru"
+    _order_param = "order:random"
     @staticmethod
     def search(tags, rating):
         """
@@ -28,18 +22,5 @@ class danbooru():
         :returns: image URL
         :rtype: str
         """
-        url = DAN_URL.format(tags=tags, rating_param=(RATING_PARAM.format(rating=_RATING_MAP[rating]) if rating else ""))
-        dan_res = requests.get(url)
-
-        if dan_res.status_code == 422:
-            # Danbooru doesn't allow searches on more than two tags unless you're premium.
-            # For whatever reason, rating: and order: together count as one tag.
-            # Probably a bug on their end, but we need to catch mega-queries anyway
-            return None
-        if not dan_res.ok:
-            dan_res.raise_for_status()
-        dan_json = dan_res.json()
-        if not dan_json:  # No results
-            return None
-        dan_json = dan_json[0]
-        return dan_json.get("file_url")
+        imaged = _booru.search(DAN_URL, danbooru._order_param, tags, rating)
+        return imaged.get("file_url") if imaged else None

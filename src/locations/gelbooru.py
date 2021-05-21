@@ -5,19 +5,13 @@ import json
 
 import requests
 
+from src.locations._booru import _booru
 
-# Hee hee
-_RATING_MAP = {
-    "safe": "safe",
-    "questionable": "questionable",
-    "explicit": "explicit"
-}
-
-RATING_PARAM = "rating:{rating}+"
-GEL_URL = "https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1&pid=1&limit=1&tags={rating_param}sort:random+{tags}"
+GEL_URL = "https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1&pid=1&limit=1"
 
 class gelbooru():
     name = "Gelbooru"
+    _order_param  = "sort:random"
     @staticmethod
     def search(tags, rating):
         """
@@ -28,16 +22,5 @@ class gelbooru():
         :returns: image URL
         :rtype: str
         """
-        url = GEL_URL.format(tags=tags, rating_param=(RATING_PARAM.format(rating=_RATING_MAP[rating]) if rating else ""))
-        gel_res = requests.get(url)
-
-        if not gel_res.ok:
-            gel_res.raise_for_status()
-        # Gelbooru returns an empty, but 200 status response if there are no matches sometimes...
-        if not gel_res.text:  # No results
-            return None
-        gel_json = gel_res.json()
-        if not gel_json:  # No results
-            return None
-        gel_json = gel_res.json()[0]
-        return gel_json.get("file_url")
+        imaged = _booru.search(GEL_URL, gelbooru._order_param, tags, rating)
+        return imaged.get("file_url") if imaged else None
