@@ -27,7 +27,7 @@ class ratings():
 TAG_REGEX = "[0-9a-zA-Z_() ]+"
 
 
-_DEFAULT_ORDER = [sites.SANKAKU, sites.KONACHAN, sites.GELBOORU, sites.DANBOORU, sites.BIGIMAGEBOARD]
+_DEFAULT_ORDER = [sites.KONACHAN, sites.SANKAKU, sites.GELBOORU, sites.DANBOORU, sites.BIGIMAGEBOARD]
 
 
 class NoResult(Exception):

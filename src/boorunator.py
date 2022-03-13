@@ -3,8 +3,8 @@ Search image hosting servers for images matching certain tags.
 """
 import re
 import requests
-from src.consts import TAG_REGEX, _DEFAULT_ORDER, NoResult, BadTag
-
+from src.consts import sites, ratings, TAG_REGEX, _DEFAULT_ORDER, NoResult, BadTag
+# Sties, ratings used to simplify imports
 
 def _findfrom(tagstr, rating, fromsite):
     """
